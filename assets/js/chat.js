@@ -89,3 +89,38 @@ function logout() {
   localStorage.clear();
   location.href = "login.html";
       }
+
+/* Notificação do browser */
+function notify(msg) {
+  if (document.hidden) {
+    if (Notification.permission === "granted") {
+      new Notification(`${msg.username} diz:`, { body: msg.text });
+    }
+  }
+}
+
+/* Pedir permissão */
+if (Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
+
+/* Integrar nas mensagens globais e privadas */
+function renderMessage(msg) {
+  const div = document.createElement("div");
+  div.className = "message";
+  div.innerHTML = `<span>${msg.username}:</span> ${msg.text}`;
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+  notify(msg);
+}
+
+function renderPrivate(msg) {
+  const div = document.createElement("div");
+  div.className = "message";
+  div.innerHTML = `<span>${msg.fromUsername} (privado):</span> ${msg.text}`;
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+  notify(msg);
+  }
