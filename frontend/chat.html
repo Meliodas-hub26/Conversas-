@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat | Chat App</title>
+  <link rel="stylesheet" href="assets/css/chat.css">
+</head>
+<body>
+
+  <div class="chat-wrapper">
+
+    <aside class="users">
+      <h3>Online</h3>
+      <ul id="usersList"></ul>
+    </aside>
+
+    <div class="chat-container">
+      <div class="chat-header">
+        <span>Chat em tempo real</span>
+        <button onclick="logout()">Sair</button>
+      </div>
+
+      <div id="messages" class="messages"></div>
+
+      <form class="chat-form" onsubmit="sendMessage(event)">
+        <input type="text" id="message" placeholder="Digite sua mensagem..." required>
+        <button>Enviar</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="assets/js/chat.js"></script>
+</body>
+</html>
