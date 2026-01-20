@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil | Chat App</title>
+  <link rel="stylesheet" href="assets/css/profile.css">
+</head>
+<body>
+
+  <div class="profile-container">
+    <h2>Meu Perfil</h2>
+
+    <img id="avatarPreview" src="/assets/images/default-avatar.png" alt="Avatar" class="avatar">
+
+    <input type="text" id="username" placeholder="Nome de utilizador">
+    <input type="text" id="bio" placeholder="Bio curta">
+    <input type="text" id="avatar" placeholder="URL do avatar">
+
+    <button onclick="updateProfile()">Salvar</button>
+    <button onclick="logout()">Sair</button>
+  </div>
+
+  <script src="assets/js/profile.js"></script>
+</body>
+</html>
