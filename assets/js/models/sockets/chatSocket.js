@@ -1,13 +1,20 @@
 import Message from "../models/Message.js";
 import jwt from "jsonwebtoken";
 
+const onlineUsers = new Map();
+
 export default function chatSocket(io) {
 
   io.use((socket, next) => {
     try {
       const token = socket.handshake.auth.token;
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      socket.user = decoded;
+
+      socket.user = {
+        id: decoded.id,
+        username: socket.handshake.auth.username
+      };
+
       next();
     } catch {
       next(new Error("Não autorizado"));
@@ -15,26 +22,34 @@ export default function chatSocket(io) {
   });
 
   io.on("connection", (socket) => {
-    console.log("Utilizador ligado:", socket.user.id);
+    const { id, username } = socket.user;
+
+    // Guardar utilizador online
+    onlineUsers.set(socket.id, { id, username });
+
+    // Enviar lista atualizada
+    io.emit("onlineUsers", Array.from(onlineUsers.values()));
+
+    console.log(`${username} entrou no chat`);
 
     socket.on("sendMessage", async (text) => {
-      const user = socket.user;
-
       const message = await Message.create({
-        userId: user.id,
-        username: socket.handshake.auth.username,
+        userId: id,
+        username,
         text
       });
 
       io.emit("newMessage", {
-        username: message.username,
-        text: message.text,
+        username,
+        text,
         createdAt: message.createdAt
       });
     });
 
     socket.on("disconnect", () => {
-      console.log("Utilizador desconectado");
+      onlineUsers.delete(socket.id);
+      io.emit("onlineUsers", Array.from(onlineUsers.values()));
+      console.log(`${username} saiu do chat`);
     });
   });
 }
