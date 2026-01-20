@@ -1,0 +1,29 @@
+.chat-wrapper {
+  display: flex;
+  height: 520px;
+}
+
+.users {
+  width: 160px;
+  background: #111827;
+  color: white;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.users h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.users ul {
+  list-style: none;
+  padding: 0;
+}
+
+.users li {
+  padding: 6px;
+  border-bottom: 1px solid #374151;
+  font-size: 0.9rem;
+}
